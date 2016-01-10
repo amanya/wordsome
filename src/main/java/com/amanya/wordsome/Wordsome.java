@@ -1,4 +1,4 @@
-package com.amanya;
+package com.amanya.wordsome;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -22,15 +23,25 @@ public class Wordsome {
     public Wordsome() {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            frequencies = mapper.readValue(new File("res/frequencies.json"), ArrayList.class);
-            words_3 = mapper.readValue(new File("res/words_3_en.json"), ArrayList.class);
-            words_4 = mapper.readValue(new File("res/words_4_en.json"), ArrayList.class);
-            words_5 = mapper.readValue(new File("res/words_5_en.json"), ArrayList.class);
+            frequencies = mapper.readValue(
+                    new File(ClassLoader.getSystemResource("frequencies.json").toURI()),
+                    ArrayList.class);
+            words_3 = mapper.readValue(
+                    new File(ClassLoader.getSystemResource("words_3_en.json").toURI()),
+                    ArrayList.class);
+            words_4 = mapper.readValue(
+                    new File(ClassLoader.getSystemResource("words_4_en.json").toURI()),
+                    ArrayList.class);
+            words_5 = mapper.readValue(
+                    new File(ClassLoader.getSystemResource("words_5_en.json").toURI()),
+                    ArrayList.class);
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
         initAlphabet();
@@ -181,9 +192,7 @@ public class Wordsome {
             int col = (((x + movement) % width) + width) % width;
             newCol[x] = board[num][col];
         }
-        for (int x = 0; x < width; x++) {
-            board[num][x] = newCol[x];
-        }
+        System.arraycopy(newCol, 0, board[num], 0, width);
     }
 
     private void slideVertical(int num, int movement) {
