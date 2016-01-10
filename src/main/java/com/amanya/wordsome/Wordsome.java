@@ -1,31 +1,16 @@
 package com.amanya.wordsome;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Wordsome {
-    private ArrayList<ArrayList> frequencies = new ArrayList<ArrayList>();
     private ArrayList<String> words_3 = new ArrayList<String>();
     private ArrayList<String> words_4 = new ArrayList<String>();
     private ArrayList<String> words_5 = new ArrayList<String>();
-    private StringBuffer alphabet = new StringBuffer();
-    private char[][] board;
-    private int width = 9;
-    private int height = 6;
 
     public Wordsome() {
+        /*
         ObjectMapper mapper = new ObjectMapper();
         try {
-            frequencies = mapper.readValue(
-                    new File(ClassLoader.getSystemResource("frequencies.json").toURI()),
-                    ArrayList.class);
             words_3 = mapper.readValue(
                     new File(ClassLoader.getSystemResource("words_3_en.json").toURI()),
                     ArrayList.class);
@@ -44,9 +29,10 @@ public class Wordsome {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        initAlphabet();
-        initBoard();
-        printBoard();
+        */
+        Board board = new Board(FileAlphabet.getInstance());
+        System.out.println("---------");
+        System.out.print(board);
         System.out.println("---------");
         /*
         slideVertical(0, 1); // Left
@@ -54,10 +40,9 @@ public class Wordsome {
         System.out.println("---------");
         slideVertical(0, -1); // Right
         printBoard();
-        */
 
         for (int n = 0; n < 4; n++) {
-            ArrayList<ArrayList> words = findHorizontalWords(5);
+            ArrayList words = findHorizontalWords(5);
             System.out.println(words);
             squashWords(words);
             words = findHorizontalWords(4);
@@ -72,58 +57,11 @@ public class Wordsome {
                 printBoard();
             }
         }
+        */
     }
 
-    private void printBoard() {
-        for (int y = 0; y < height; y++) {
-            StringBuffer s = new StringBuffer();
-            for (int x = 0; x < width; x++) {
-                s.append(board[y][x]);
-            }
-            System.out.println(s);
-        }
-    }
 
-    private void initAlphabet() {
-        for (ArrayList item : frequencies) {
-            String letter = (String)item.get(0);
-            Double repeat = (Double)item.get(1) * 100;
-            for (int n = 0; n < repeat; n++) {
-                alphabet.append(letter);
-            }
-        }
-    }
-
-    public char getLetter() {
-        Random r = new Random();
-        return alphabet.charAt(r.nextInt(alphabet.length()));
-    }
-
-    private void initBoard() {
-        board = new char[height][width];
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                board[y][x] = getLetter();
-            }
-        }
-    }
-
-    private StringBuffer getRow(int num) {
-        StringBuffer row = new StringBuffer();
-        for (int x = 0; x < width; x++) {
-            row.append(board[num][x]);
-        }
-        return row;
-    }
-
-    private StringBuffer getCol(int num) {
-        StringBuffer col = new StringBuffer();
-        for (int y = 0; y < height; y++) {
-            col.append(board[y][num]);
-        }
-        return col;
-    }
-
+    /*
     private ArrayList findHorizontalWords(int length) {
         ArrayList<ArrayList> words = new ArrayList<ArrayList>();
         ArrayList<String> corpus = new ArrayList<String>();
@@ -154,7 +92,9 @@ public class Wordsome {
         }
         return words;
     }
+    */
 
+    /*
     private void squashWords(ArrayList<ArrayList> words) {
         for (ArrayList word : words) {
             String chunk = (String)word.get(0);
@@ -165,7 +105,9 @@ public class Wordsome {
             }
         }
     }
+    */
 
+    /*
     private boolean cascadeBoard() {
         boolean moved = false;
         for (int y = height - 1; y >= 1; y--) {
@@ -185,7 +127,9 @@ public class Wordsome {
         }
         return moved;
     }
+    */
 
+    /*
     private void slideHorizontal(int num, int movement) {
         char[] newCol = new char[width];
         for (int x = 0; x < width; x++) {
@@ -194,7 +138,9 @@ public class Wordsome {
         }
         System.arraycopy(newCol, 0, board[num], 0, width);
     }
+    */
 
+    /*
     private void slideVertical(int num, int movement) {
         char[] newRow = new char[height];
         for (int y = 0; y < height; y++) {
@@ -205,4 +151,5 @@ public class Wordsome {
             board[y][num] = newRow[y];
         }
     }
+    */
 }
